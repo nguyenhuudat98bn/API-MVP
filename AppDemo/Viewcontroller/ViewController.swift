@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, OutputProtocol {
+class ViewController: ViewControllerB, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, OutputProtocol {
 
     
     @IBOutlet weak var collectionView: UICollectionView!
@@ -24,6 +24,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     func callApi(){
         self.moviesPresenter.getMovies(page: 1, apiKey: APIKey.apiKey)
+//        self.moviesPresenter.getMovies(page: 1, apiKey: APIKey.apiKey)
+//        self.moviesPresenter.getList(page: 1, apiKey: APIKey.apiKey, classType: ResponseModel<[MoviesListModel]>.self)
     }
     
     func setupView(){

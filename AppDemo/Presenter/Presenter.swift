@@ -6,7 +6,12 @@
 //
 
 import Foundation
+import Alamofire
 
+public enum ServerResponse {
+    case result(Any)
+    case failure(Int, String)
+}
 
 protocol InputProtocol {
     func getMovies(page: Int, apiKey: String)
@@ -30,66 +35,71 @@ class Presenter: InputProtocol {
         self.view = view as? OutputProtocol
     }
     
+//    func getList<T: Codable>(page: Int, apiKey: String, classType: T.Type){
+//        var params = Parameters()
+//        params.updateValue(page, forKey: Params.page)
+//        params.updateValue(apiKey, forKey: Params.api_key)
+//        let router = Router()
+//        router.parameters = params
+//        router.menthod = .get
+//        router.urlString = APIDomain.domain + APIPath.apiListMoviesPath
+//        AF.request(router).responseData { data in
+//            guard let valuesData = data.value else {return}
+//            print(String(data: valuesData, encoding: .utf8) ?? "")
+//            do {
+//                let decoder = JSONDecoder()
+//                let result = try decoder.decode(classType, from: valuesData)
+//                print(result)
+//            } catch {
+//                print("errrrrrrrr")
+//
+//            }
+//
+//
+//        }
+//    }
+    
     func getMovies(page: Int, apiKey: String) {
-        
-        var params = [String: Any]()
-        params[Params.page] = page
-        params[Params.api_key] = apiKey
-        sendRequest(APIDomain.domain + APIPath.apiListMoviesPath, parameters: params) { responseObject, error in
-            guard let responseObject = responseObject, error == nil else {
-                print(error ?? "Unknown error")
-                return
+        DataService.callApiListMovies(page: page, apiKey: apiKey) { model in
+            if let model = model {
+                self.view?.updateView(listMovies: model.results ?? [])
             }
-            do {
-                var arrModel: [MoviesListModel] = []
-                if let reults = responseObject["results"] {
-                    let dict = reults as! [DICT]
-                    for i in dict {
-                        let model = MoviesListModel(dict: i)
-                        arrModel.append(model)
-                    }
-                }
-                self.view?.updateView(listMovies: arrModel)
-                
-            } catch {
-                print("Error during ecoding: (error.localizedDescription)")
-            }
-            
         }
-    }
-    
-    func getUrl(page: Int, apiKey: String){
-        
-        
         
     }
-    
 
     
-    func sendRequest(_ url: String, parameters: [String: Any], completion: @escaping ([String: Any]?, Error?) -> Void) {
-        var components = URLComponents(string: url)!
-        let percentEncodedQuery = parameters.map({ "\($0)=\($1)" }).joined(separator: "&")
-        components.percentEncodedQuery = percentEncodedQuery
-        
-        let request = URLRequest(url: components.url!)
-        
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard
-                let data = data,                              // is there data
-                let response = response as? HTTPURLResponse,  // is there HTTP response
-                200 ..< 300 ~= response.statusCode,           // is statusCode 2XX
-                error == nil                                  // was there no error
-            else {
-                completion(nil, error)
-                return
-            }
-            
-            let responseObject = (try? JSONSerialization.jsonObject(with: data)) as? [String: Any]
-            completion(responseObject, nil)
-        }
-        task.resume()
-    }
-    
+//    func sendRequest<T: Codable>(_ url: String, classType: T.Type, parameters: [String: Any], completion: @escaping ([String: Any]?, Error?) -> Void) {
+//        var components = URLComponents(string: url)!
+//        let percentEncodedQuery = parameters.map({ "\($0)=\($1)" }).joined(separator: "&")
+//        components.percentEncodedQuery = percentEncodedQuery
+//
+//        let request = URLRequest(url: components.url!)
+//
+//        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+//            guard
+//                let data = data,                              // is there data
+//                let response = response as? HTTPURLResponse,  // is there HTTP response
+//                200 ..< 300 ~= response.statusCode,           // is statusCode 2XX
+//                error == nil                                  // was there no error
+//            else {
+//                completion(nil, error)
+//                return
+//            }
+//
+//            let decoder = JSONDecoder()
+//
+//            let utf8Text = String(data: data, encoding: .utf8)
+//
+//            print(utf8Text)
+//            let result = try? decoder.decode(classType, from: data)
+//
+//            let responseObject = (try? JSONSerialization.jsonObject(with: data)) as? [String: Any]
+//            completion(responseObject, nil)
+//        }
+//        task.resume()
+//    }
+//
     
     
     

@@ -27,3 +27,5 @@ struct Params {
     static let page = "page"
     static let api_key = "api_key"
 }
+
+

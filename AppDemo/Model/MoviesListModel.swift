@@ -6,16 +6,13 @@
 //
 
 import Foundation
-typealias DICT = Dictionary<AnyHashable, Any>
-class MoviesListModel: NSObject, Decodable {
+
+class MoviesListModel: NSObject, Codable {
     var title: String?
     var id: Int?
     var overview: String?
     var poster_path: String?
-    var vote_average: Int?
+    var vote_average: Double?
+    var adult: Bool?
     
-    init(dict: DICT) {
-        poster_path = dict["poster_path"] as? String ?? ""
-
-    }
 }

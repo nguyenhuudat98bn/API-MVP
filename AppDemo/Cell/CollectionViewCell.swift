@@ -16,11 +16,8 @@ class CollectionViewCell: UICollectionViewCell {
     }
     
     func setupView(model: MoviesListModel) {
-        //        self.backgroundColor = UIColor.black
         download(from: APIDomain.domainImg + (model.poster_path ?? ""))
-    }
-    
-    
+    }    
     
     func download(from urlString: String){
         if let url = URL(string: urlString) {
