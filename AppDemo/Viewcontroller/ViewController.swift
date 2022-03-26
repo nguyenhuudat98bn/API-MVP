@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 import RxRelay
 
-class ViewController: ViewControllerB, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, OutputProtocol {
+class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, OutputProtocol {
 
     
     @IBOutlet weak var collectionView: UICollectionView!
@@ -21,8 +21,13 @@ class ViewController: ViewControllerB, UICollectionViewDataSource, UICollectionV
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-        moviesPresenter.attachView(self)
+//        moviesPresenter.attachView(self)
         callApi()
+    }
+    
+    @IBAction func pushto(_ sender: Any) {
+        let vcB = ViewControllerB()
+        self.navigationController?.pushViewController(vcB, animated: true)
     }
     
     func callApi(){

@@ -8,17 +8,25 @@
 import UIKit
 
 class ViewControllerB: UIViewController {
+    
+    let moviesPresenter1 = Presenter()
     var b: UIImage?
     override func viewDidLoad() {
         super.viewDidLoad()
 //        self.callApi()
-        loadimg { img in
-            
-        } error: {
-            
-        }
+//        loadimg { img in
+//
+//        } error: {
+//
+//        }
+        
+        moviesPresenter1.attachView(self)
 
         // Do any additional setup after loading the view.
+    }
+    
+    deinit {
+        print("ViewControllerB")
     }
     
     func loadimg(completed: (UIImage?) -> Void, error: () -> Void) {

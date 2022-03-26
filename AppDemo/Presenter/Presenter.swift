@@ -25,7 +25,7 @@ protocol OutputProtocol: class {
 
 class Presenter: InputProtocol {
     
-    weak var view: OutputProtocol?
+    var view: OutputProtocol?
     
     init() {
         

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import BackgroundTasks
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
