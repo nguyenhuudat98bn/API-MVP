@@ -6,6 +6,9 @@
 //
 
 import UIKit
+import RxSwift
+import RxRelay
+import RxCocoa
 
 class ViewController: ViewControllerB, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, OutputProtocol {
 
@@ -15,12 +18,15 @@ class ViewController: ViewControllerB, UICollectionViewDataSource, UICollectionV
     var listModel: [MoviesListModel] = []
     let moviesPresenter = Presenter()
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setupView()
         moviesPresenter.attachView(self)
         callApi()
     }
+    
     
     func callApi(){
         self.moviesPresenter.getMovies(page: 1, apiKey: APIKey.apiKey)
